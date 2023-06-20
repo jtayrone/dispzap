@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Script de implantação do Chatwoot
+# Script recompilação do Chatwoot
 
-echo "Iniciando implantação do Chatwoot..."
+echo "Iniciando recompilação do Chatwoot..."
 
-# Função para exibir mensagem de sucesso ou erro
 check_status() {
     if [ $? -eq 0 ]; then
         echo "Comando executado com sucesso."
@@ -13,22 +12,21 @@ check_status() {
     fi
 }
 
-# Executar os comandos um por vez
-sudo -i -u chatwoot
+sudo -i -u chatwoot |
 check_status
 
-cd chatwoot
+cd chatwoot |
 check_status
 
 echo "Executando a pré-compilação dos ativos do Chatwoot..."
-rake assets:precompile RAILS_ENV=production
+rake assets:precompile RAILS_ENV=production |
 check_status
 
-exit
+exit |
 check_status
 
 echo "Recarregando o daemon e reiniciando o serviço do Chatwoot..."
-systemctl daemon-reload && systemctl restart chatwoot.target
+systemctl daemon-reload && systemctl restart chatwoot.target |
 check_status
 
-echo "Implantação concluída."
+echo "Chatwoot recompilado com sucesso!"
